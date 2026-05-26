@@ -1,0 +1,25 @@
+manifestVersion: 1
+name: "@rkcoleman/azure-containers"
+version: "2026.05.26.1"
+description: >
+  Azure Container Apps, Container Apps managed environments, and Azure
+  Container Registry lifecycle models. Wraps the `az` CLI to provide
+  list/get/sync/create/update/delete plus revision management, certificate
+  upload, and ACR credential retrieval. Designed to compose with
+  @dougschaefer/azure-* models.
+repository: "https://github.com/rkcoleman/swamp-azure-containers"
+models:
+  - azure/container_app.ts
+  - azure/container_app_environment.ts
+  - azure/container_registry.ts
+include:
+  - azure/_helpers.ts
+additionalFiles:
+  - README.md
+  - LICENSE
+labels:
+  - azure
+  - container-apps
+  - acr
+  - cloud
+  - infrastructure
