@@ -1,6 +1,6 @@
 # @rkcoleman/azure-containers
 
-Swamp extension package providing lifecycle models for **Azure Container Apps**, **Container Apps managed environments**, and **Azure Container Registry**. Wraps the `az` CLI under the hood and is designed to compose with `@dougschaefer/azure-*` for full Azure resource-group inventory and automation.
+Swamp extension package providing lifecycle models for **Azure Container Apps**, **Container Apps Jobs**, **Container Apps managed environments**, and **Azure Container Registry**. Wraps the `az` CLI under the hood and is designed to compose with `@dougschaefer/azure-*` for full Azure resource-group inventory and automation.
 
 ## Models
 
@@ -8,6 +8,7 @@ Swamp extension package providing lifecycle models for **Azure Container Apps**,
 |---|---|
 | `@rkcoleman/azure-container-app` | `list`, `get`, `sync`, `create`, `update`, `delete`, `listRevisions`, `getRevision`, `activateRevision`, `deactivateRevision`, `restartRevision` |
 | `@rkcoleman/azure-container-app-environment` | `list`, `get`, `sync`, `create`, `update`, `delete`, `listCertificates`, `uploadCertificate` |
+| `@rkcoleman/azure-container-app-job` | `list`, `get`, `sync`, `create`, `update`, `delete`, `start`, `stop`, `listExecutions`, `getExecution`, `listSecrets`, `setSecrets`, `removeSecrets` |
 | `@rkcoleman/azure-container-registry` | `list`, `get`, `sync`, `create`, `update`, `delete`, `listRepositories`, `listTags`, `getCredentials` |
 
 ## Prerequisites
@@ -34,9 +35,31 @@ swamp model create @rkcoleman/azure-container-app my-apps \
 swamp model method run my-apps list
 ```
 
+## Container Apps Jobs example
+
+Scheduled, event-driven, or manual containerized batch jobs sharing an environment with your Container Apps:
+
+```bash
+swamp model create @rkcoleman/azure-container-app-job my-jobs \
+  --global-arg subscriptionId=$SUB --global-arg resourceGroup=my-rg
+
+# Create a daily scheduled job
+swamp model method run my-jobs create \
+  --input name=nightly-cleanup \
+  --input environment=my-env \
+  --input image=myacr.azurecr.io/cleanup:1.0 \
+  --input triggerType=Schedule \
+  --input cronExpression="0 3 * * *" \
+  --input replicaTimeout=600
+
+# Manually trigger an ad-hoc run, then review history
+swamp model method run my-jobs start --input name=nightly-cleanup
+swamp model method run my-jobs listExecutions --input name=nightly-cleanup
+```
+
 ## Global arguments
 
-All three models share the same global argument schema:
+All four models share the same global argument schema:
 
 | Argument | Required | Description |
 |---|---|---|

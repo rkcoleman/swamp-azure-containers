@@ -43,7 +43,7 @@ const RevisionSchema = z
 /** Swamp model for Azure Container App lifecycle. See module docs for scope. */
 export const model = {
   type: "@rkcoleman/azure-container-app",
-  version: "2026.05.26.1",
+  version: "2026.05.26.2",
   globalArguments: AzureGlobalArgsSchema,
   resources: {
     containerApp: {

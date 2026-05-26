@@ -42,7 +42,7 @@ const CertificateSchema = z
 /** Swamp model for Azure Container Apps managed environment lifecycle. */
 export const model = {
   type: "@rkcoleman/azure-container-app-environment",
-  version: "2026.05.26.1",
+  version: "2026.05.26.2",
   globalArguments: AzureGlobalArgsSchema,
   resources: {
     environment: {
